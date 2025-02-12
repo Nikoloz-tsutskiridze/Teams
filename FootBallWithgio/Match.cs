@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using FirstLesson;
 
 class Match
 {
@@ -20,9 +19,9 @@ class Match
 
     public void Start()
     {
-        HomeGoals = GenerateRandomNumber.Generate();
-        AwayGoals = GenerateRandomNumber.Generate();
-        
+        HomeGoals = GenerateRandomNumber.Generate(1, 6);
+        AwayGoals = GenerateRandomNumber.Generate(1, 6);
+
         if (HomeGoals == AwayGoals)
         {
             ShootPenalties();
@@ -32,31 +31,39 @@ class Match
 
     public void ShootPenalties()
     {
-        var homePenalties = GenerateRandomNumber.Generate();
-        var awayPenalties = GenerateRandomNumber.Generate();
+        var homePenalties = GenerateRandomNumber.Generate(1, 6);
+        var awayPenalties = GenerateRandomNumber.Generate(1, 6);
+
+        while (homePenalties == awayPenalties)
+        {
+            Console.WriteLine("Tie in penalties, reshooting...");
+            homePenalties = GenerateRandomNumber.Generate(1, 6);
+            awayPenalties = GenerateRandomNumber.Generate(1, 6);
+        }
+
         if (homePenalties > awayPenalties)
         {
-            HomeGoals = HomeGoals + 1;
+            Console.WriteLine("Home wins on penalties!");
         }
         else
         {
-            AwayGoals = AwayGoals + 1;
+            Console.WriteLine("Away wins on penalties!");
         }
-        
     }
+
 
     public Team GetWinner()
     {
         Team matchWinner;
-        
+
         if (HomeGoals > AwayGoals)
         {
             matchWinner = Home;
         }
-        else 
+        else
         {
             matchWinner = Away;
-            
+
         }
         Console.WriteLine(matchWinner.Name);
 

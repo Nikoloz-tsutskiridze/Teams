@@ -1,6 +1,4 @@
-﻿using FirstLesson;
-using System.Security.Cryptography;
-
+﻿using System.Security.Cryptography;
 
 //while (true)
 //{
@@ -37,28 +35,9 @@ foreach (var teamName in teamNames)
     teams.Add(team);
 }
 
-var matches = new List<Match>();
-while (teams.Count > 0)
-{
-    var indexForFirstTeam = GenerateRandomNumber.Generate(0, teams.Count);
-    var teamFirst = teams[indexForFirstTeam];
 
-    teams.Remove(teamFirst);
-
-    var indexForSecondTeam = GenerateRandomNumber.Generate(0, teams.Count);
-    var teamSecond = teams[indexForSecondTeam];
-    teams.Remove(teamSecond);
-
-    var match = new Match(teamFirst, teamSecond);
-    matches.Add(match);
-}
-
-foreach (var item in matches)
-{
-    item.Start();
-    item.Start();
-    item.GetWinner();
-}
+var tournament = new Tournament("Uefa Champions League");
+var winners = tournament.GetWinners(teams);
 
 
 Console.ReadKey();
