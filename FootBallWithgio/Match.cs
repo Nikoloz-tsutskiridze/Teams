@@ -6,11 +6,13 @@ class Match
     public Team Away;
     public int HomeGoals;
     public int AwayGoals;
+
     public Match(Team home, Team away)
     {
         Home = home;
         Away = away;
     }
+
     public Match(string home, string away)
     {
         Home = new Team(home);
@@ -22,6 +24,11 @@ class Match
         HomeGoals = GenerateRandomNumber.Generate(1, 6);
         AwayGoals = GenerateRandomNumber.Generate(1, 6);
 
+        Statistics.TotalGoals += HomeGoals + AwayGoals;
+        Statistics.MatchesPlayed++;
+
+        ApplyHomeAdvantage();
+
         if (HomeGoals == AwayGoals)
         {
             ShootPenalties();
@@ -29,8 +36,21 @@ class Match
         Console.WriteLine($"{Home.Name} {HomeGoals} - {AwayGoals} {Away.Name}");
     }
 
+    private void ApplyHomeAdvantage()
+    {
+        var homeBoostChance = GenerateRandomNumber.Generate(1, 100);
+
+        if (homeBoostChance <= 20)
+        {
+            HomeGoals++;
+            Console.WriteLine($"Home advantage! {Home.Name} scores an extra goal!");
+        }
+    }
+
     public void ShootPenalties()
     {
+        Statistics.PenaltyShootouts++;
+
         var homePenalties = GenerateRandomNumber.Generate(1, 6);
         var awayPenalties = GenerateRandomNumber.Generate(1, 6);
 
@@ -54,18 +74,9 @@ class Match
 
     public Team GetWinner()
     {
-        Team matchWinner;
+        Team matchWinner = HomeGoals > AwayGoals ? Home : Away;
 
-        if (HomeGoals > AwayGoals)
-        {
-            matchWinner = Home;
-        }
-        else
-        {
-            matchWinner = Away;
-
-        }
-        Console.WriteLine(matchWinner.Name);
+        Console.WriteLine($" Winner: {matchWinner.Name} ({(matchWinner == Home ? "Home" : "Away")})");
 
         return matchWinner;
     }

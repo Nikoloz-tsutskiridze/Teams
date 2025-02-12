@@ -18,6 +18,10 @@ internal class GenerateRandomMatch
     {
         var home = GetOpponent(teams);
         var away = GetOpponent(teams);
+
+        home.IsHome = true;
+        away.IsAway = true;
+
         return new Match(home, away);
     }
 }

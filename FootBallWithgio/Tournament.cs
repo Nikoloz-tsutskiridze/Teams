@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageExt;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,47 @@ internal class Tournament
         Name = name;
     }
 
-    public List<Team> GetWinners(List<Team> teams)
+    public Team GetWinners(List<Team> teams)
     {
-        if (teams.Count % 2 != 0)
-            throw new ArgumentException("Number of teams must be even.");
+
+        if (teams.Count == 1)
+        {
+            Console.WriteLine($"\nWinner is: {teams.First().Name} 🎉");
+            Statistics.Display();
+            return teams.First();
+        }
+
+        string roundName;
+        switch (teams.Count)
+        {
+            case 16:
+                roundName = "Eight-Finals";
+                break;
+            case 8:
+                roundName = "Quarter-Finals";
+                break;
+            case 4:
+                roundName = "Semi-Finals";
+                break;
+            case 2:
+                roundName = "Final";
+                break;
+            default:
+                roundName = "";
+                break;
+        }
+
+
+        Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════╗");
+        Console.WriteLine($"                               {roundName}                                 ");
+        Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════╝");
+
+
+        foreach (var team in teams)
+        {
+            team.IsHome = false;
+            team.IsAway = false;
+        }
 
         var matches = new List<Match>();
         var matchGenerator = new GenerateRandomMatch();
@@ -31,6 +69,8 @@ internal class Tournament
             match.Start();
         }
 
-        return matches.Select(x => x.GetWinner()).ToList();
+        var winners = matches.Select(x => x.GetWinner()).ToList();
+
+        return GetWinners(winners);
     }
 }

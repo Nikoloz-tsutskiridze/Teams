@@ -26,18 +26,9 @@ var teamNames = new string[]
   "Napoli",
 };
 
-
-List<Team> teams = new List<Team>();
-
-foreach (var teamName in teamNames)
-{
-    var team = new Team(teamName);
-    teams.Add(team);
-}
-
+var teams = teamNames.Select(x => new Team(x)).ToList();
 
 var tournament = new Tournament("Uefa Champions League");
-var winners = tournament.GetWinners(teams);
-
+tournament.GetWinners(teams);
 
 Console.ReadKey();
