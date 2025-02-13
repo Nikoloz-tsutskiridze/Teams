@@ -1,4 +1,5 @@
 ﻿using LanguageExt;
+using LanguageExt.ClassInstances.Pred;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +9,41 @@ using System.Threading.Tasks;
 internal class Tournament
 {
     public string Name;
-    public Tournament(string name)
+    public List<Team> Teams;
+
+    public Tournament(string name, List<Team> teams)
     {
         Name = name;
+        Teams = teams;
     }
 
-    public Team GetWinners(List<Team> teams)
+    public List<Match> Draw()
+    {
+        var matches = new List<Match>();
+        var matchGenerator = new GenerateRandomMatch(); 
+
+        while (Teams.Count > 0)
+        {
+            var match = matchGenerator.GenerateMatch(Teams); 
+            matches.Add(match);
+        }
+
+        return matches;
+    }
+
+
+    public Team GetWinners()
     {
 
-        if (teams.Count == 1)
+        if (Teams.Count == 1)
         {
-            Console.WriteLine($"\nWinner is: {teams.First().Name} 🎉");
+            Console.WriteLine($"\nWinner is: {Teams.First().Name}");
             Statistics.Display();
-            return teams.First();
+            return Teams.First();
         }
 
         string roundName;
-        switch (teams.Count)
+        switch (Teams.Count)
         {
             case 16:
                 roundName = "Eight-Finals";
@@ -49,28 +68,21 @@ internal class Tournament
         Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════╝");
 
 
-        foreach (var team in teams)
+        foreach (var team in Teams)
         {
             team.IsHome = false;
             team.IsAway = false;
         }
 
-        var matches = new List<Match>();
-        var matchGenerator = new GenerateRandomMatch();
-
-        while (teams.Count > 0)
-        {
-            var match = matchGenerator.GenerateMatch(teams);
-            matches.Add(match);
-        }
+        var matches = Draw();
 
         foreach (var match in matches)
         {
             match.Start();
         }
 
-        var winners = matches.Select(x => x.GetWinner()).ToList();
+        Teams = matches.Select(x => x.GetWinner()).ToList();
 
-        return GetWinners(winners);
+        return GetWinners();
     }
 }
