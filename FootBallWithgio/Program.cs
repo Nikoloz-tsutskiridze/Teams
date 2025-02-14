@@ -20,7 +20,7 @@ var teamNames = new string[]
   "Napoli",
 };
 
-var Teams = teamNames.Select(x => new Team(x)).ToList();
+var Teams = teamNames.Select(name => new Team(name)).ToList();
 
 var tournament = new Tournament("Uefa Champions League", Teams);
 tournament.GetWinners();
