@@ -17,18 +17,20 @@ internal class Tournament
         Teams = teams;
     }
 
-    public List<Match> Draw()
+
+
+    public List<Playoff> Draw()
     {
-        var matches = new List<Match>();
+        var playoffs = new List<Playoff>();
         var matchGenerator = new GenerateRandomMatch(); 
 
         while (Teams.Count > 0)
         {
-            var match = matchGenerator.GenerateMatch(Teams); 
-            matches.Add(match);
+            var match = matchGenerator.GenerateMatch(Teams);
+            var playoff = new Playoff(match.Home, match.Away);
+            playoffs.Add(playoff);
         }
-
-        return matches;
+        return playoffs;
     }
 
 
@@ -62,7 +64,6 @@ internal class Tournament
                 break;
         }
 
-
         Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════╗");
         Console.WriteLine($"                               {roundName}                                 ");
         Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════╝");
@@ -74,14 +75,14 @@ internal class Tournament
             team.IsAway = false;
         }
 
-        var matches = Draw();
+        var playoffs = Draw();
 
-        foreach (var match in matches)
+        foreach (var playoff in playoffs)
         {
-            match.Start();
+            playoff.Start();
         }
 
-        Teams = matches.Select(x => x.GetWinner()).ToList();
+        Teams = playoffs.Select(x => x.GetWinner()).ToList();
 
         return GetWinners();
     }

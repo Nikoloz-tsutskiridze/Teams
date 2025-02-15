@@ -19,6 +19,13 @@ class Match
         Away = new Team(away);
     }
 
+    public Match Reverse()
+    {
+        var NewReversedMatch = new Match(Away, Home);
+
+        return NewReversedMatch;
+    }
+
     public void Start()
     {
         HomeGoals = GenerateRandomNumber.Generate(1, 6);
@@ -29,11 +36,7 @@ class Match
 
         ApplyHomeAdvantage();
 
-        if (HomeGoals == AwayGoals)
-        {
-            ShootPenalties();
-        }
-        Console.WriteLine($"{Home.Name} {HomeGoals} - {AwayGoals} {Away.Name}");
+        
     }
 
     private void ApplyHomeAdvantage()
@@ -43,34 +46,8 @@ class Match
         if (homeBoostChance <= 20)
         {
             HomeGoals++;
-            Console.WriteLine($"Home advantage! {Home.Name} scores an extra goal!");
         }
     }
-
-    public void ShootPenalties()
-    {
-        Statistics.PenaltyShootouts++;
-
-        var homePenalties = GenerateRandomNumber.Generate(1, 6);
-        var awayPenalties = GenerateRandomNumber.Generate(1, 6);
-
-        while (homePenalties == awayPenalties)
-        {
-            Console.WriteLine("Tie in penalties, reshooting...");
-            homePenalties = GenerateRandomNumber.Generate(1, 6);
-            awayPenalties = GenerateRandomNumber.Generate(1, 6);
-        }
-
-        if (homePenalties > awayPenalties)
-        {
-            Console.WriteLine("Home wins on penalties!");
-        }
-        else
-        {
-            Console.WriteLine("Away wins on penalties!");
-        }
-    }
-
 
     public Team GetWinner()
     {
