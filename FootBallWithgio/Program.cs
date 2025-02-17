@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-var teamNames = new string[]
+﻿var teamNames = new string[]
 {
   "Manchester United",
   "Real Madrid",
@@ -48,8 +46,8 @@ for (int i = startYear; i <= currentYear; i++)
     winCounter.AddWin(winner);
     Console.WriteLine($"{i}: {winner}");
 }
+
+winCounter.PrintTopTeams();
+
+Console.ReadKey();
  */
-
-//winCounter.PrintTopTeams();
-
-//Console.ReadKey();

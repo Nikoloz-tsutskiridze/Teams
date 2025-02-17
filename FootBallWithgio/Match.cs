@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-class Match
+﻿class Match
 {
     public Team Home;
     public Team Away;
@@ -26,17 +24,15 @@ class Match
         return NewReversedMatch;
     }
 
-    public void Start()
+    public virtual void Start()
     {
-        HomeGoals = GenerateRandomNumber.Generate(1, 6);
-        AwayGoals = GenerateRandomNumber.Generate(1, 6);
+        HomeGoals = GenerateRandomNumber.Generate(1, 3);
+        AwayGoals = GenerateRandomNumber.Generate(1, 3);
 
         Statistics.TotalGoals += HomeGoals + AwayGoals;
         Statistics.MatchesPlayed++;
 
         ApplyHomeAdvantage();
-
-        
     }
 
     private void ApplyHomeAdvantage()

@@ -9,38 +9,33 @@
     public int FirstTeamTotalGoals;
     public int SecondTeamTotalGoals;
 
-    public Playoff(Team firsteam, Team secondteam)
-    {
-        FirstTeam = firsteam;
-        SecondTeam = secondteam;
+    private PenaltySeries PenaltySeries;
 
-        FirstRound = new Match(firsteam, secondteam);
+    public Playoff(Team firstTeam, Team secondTeam)
+    {
+        FirstTeam = firstTeam;
+        SecondTeam = secondTeam;
+
+        FirstRound = new Match(firstTeam, secondTeam);
         SecondRound = FirstRound.Reverse();
+
+        PenaltySeries = new PenaltySeries(firstTeam, secondTeam);
     }
 
-    public void ShootPenalties(out int firstTeamPenalties, out int secondTeamPenalties)
+    public void ShootPenalties()
     {
         Statistics.PenaltyShootouts++;
+        PenaltySeries.Start(1, 6);
 
-        firstTeamPenalties = GenerateRandomNumber.Generate(1, 6);
-        secondTeamPenalties = GenerateRandomNumber.Generate(1, 6);
+        Console.WriteLine(PenaltySeries.GetScore());
 
-        while (firstTeamPenalties == secondTeamPenalties)
+        if (PenaltySeries.FirstGoals > PenaltySeries.SecondGoals)
         {
-            Console.WriteLine("Tie in penalties, reshooting...");
-            firstTeamPenalties = GenerateRandomNumber.Generate(1, 6);
-            secondTeamPenalties = GenerateRandomNumber.Generate(1, 6);
+            FirstTeamTotalGoals++;
         }
-
-        if (firstTeamPenalties > secondTeamPenalties)
+        else if (PenaltySeries.FirstGoals < PenaltySeries.SecondGoals)
         {
-            FirstTeamTotalGoals = FirstTeamTotalGoals++;
-            Console.WriteLine("Home wins on penalties!");
-        }
-        else
-        {
-            SecondTeamTotalGoals = SecondTeamTotalGoals++;
-            Console.WriteLine("Away wins on penalties!");
+            SecondTeamTotalGoals++;
         }
     }
 
@@ -49,22 +44,23 @@
         FirstRound.Start();
         SecondRound.Start();
 
-        FirstTeamTotalGoals = FirstRound.HomeGoals + SecondRound.AwayGoals;
-        SecondTeamTotalGoals = SecondRound.HomeGoals + FirstRound.AwayGoals;
+        var firstTeamTotalGoals = FirstRound.HomeGoals + SecondRound.AwayGoals;
+        var secondTeamTotalGoals = SecondRound.HomeGoals + FirstRound.AwayGoals;
 
-        //Console.WriteLine($"\nAggregate Score: {FirstTeam.Name} {FirstTeamTotalGoals} - {SecondTeamTotalGoals} {SecondTeam.Name}");
-        int firstTeamPenalties = 0;
-        int secondTeamPenalties = 0;
+        FirstTeamTotalGoals = firstTeamTotalGoals;
+        SecondTeamTotalGoals = secondTeamTotalGoals;
 
-        if (FirstTeamTotalGoals == SecondTeamTotalGoals)
+        if (firstTeamTotalGoals == secondTeamTotalGoals)
         {
-            ShootPenalties(out firstTeamPenalties, out secondTeamPenalties);
+            ShootPenalties();
         }
 
         var winner = GetWinner();
-        var potentialPenalties = firstTeamPenalties != 0 && secondTeamPenalties != 0 ? $"({firstTeamPenalties} : {secondTeamPenalties})" : string.Empty;
+        var potentialPenalties = PenaltySeries.FirstGoals != 0 && PenaltySeries.SecondGoals != 0
+            ? $"({PenaltySeries.FirstGoals} : {PenaltySeries.SecondGoals})"
+            : string.Empty;
 
-        Console.WriteLine($"==== {FirstTeam.Name} {FirstTeamTotalGoals} - {SecondTeamTotalGoals} {SecondTeam.Name} ==== {potentialPenalties} ({winner.Name})\n");
+        Console.WriteLine($"==== {FirstTeam.Name} {firstTeamTotalGoals} - {secondTeamTotalGoals} {SecondTeam.Name} ==== {potentialPenalties} ({winner.Name})\n");
     }
 
     public Team GetWinner()
