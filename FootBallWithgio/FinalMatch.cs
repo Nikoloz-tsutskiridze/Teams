@@ -1,17 +1,14 @@
-﻿class FinalMatch : Match
+﻿using Sports.Matches;
+
+public class FinalMatch<TTeam> : Match<TTeam> where TTeam : Team
 {
-    public FinalMatch(Team home, Team away) : base(home, away)
-    {
-    }
-    public FinalMatch(string home, string away) : base(home, away)
-    {
-    }
+    public FinalMatch(TTeam home, TTeam away) : base(home, away) { }
 
     public PenaltySeries PenaltySeries;
 
-    public override void Start()
+    public override void Start(int start, int end)
     {
-        base.Start();
+        base.Start(start, end);
         if (HomeGoals == AwayGoals)
         {
             PenaltySeries = new PenaltySeries(Home, Away);

@@ -6,28 +6,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class Tournament
+internal class Tournament<TTeam> where TTeam : Team
 {
     public string Name;
-    public List<Team> Teams;
+    public List<TTeam> Teams;
+    
 
-    public Tournament(string name, List<Team> teams)
+    public Tournament(string name, List<TTeam> teams)
     {
         Name = name;
         Teams = teams;
     }
-
-
-
-    public List<Playoff> Draw()
+    public List<Playoff<TTeam>> Draw()
     {
-        var playoffs = new List<Playoff>();
-        var matchGenerator = new GenerateRandomMatch(); 
+        var playoffs = new List<Playoff<TTeam>>();
+        var matchGenerator = new GenerateRandomMatch<TTeam>(); 
 
         while (Teams.Count > 0)
         {
             var match = matchGenerator.GenerateMatch(Teams);
-            var playoff = new Playoff(match.Home, match.Away);
+            var playoff = new Playoff<TTeam>(match.Home, match.Away);
             playoffs.Add(playoff);
         }
         return playoffs;

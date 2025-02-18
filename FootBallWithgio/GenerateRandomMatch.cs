@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Sports.Matches;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class GenerateRandomMatch
+internal class GenerateRandomMatch<TTeam> where TTeam : Team
 {
-    public Team GetOpponent(List<Team> teams)
+    public TTeam GetOpponent(List<TTeam> teams)
     {
         var index = GenerateRandomNumber.Generate(0, teams.Count - 1);
         var randomElement = teams[index];
@@ -14,7 +15,7 @@ internal class GenerateRandomMatch
         return randomElement;
     }
 
-    public Match GenerateMatch(List<Team> teams)
+    public Match<TTeam> GenerateMatch(List<TTeam> teams)
     {
         var home = GetOpponent(teams);
         var away = GetOpponent(teams);
@@ -22,6 +23,6 @@ internal class GenerateRandomMatch
         home.IsHome = true;
         away.IsAway = true;
 
-        return new Match(home, away);
+        return new Match<TTeam>(home, away);
     }
 }

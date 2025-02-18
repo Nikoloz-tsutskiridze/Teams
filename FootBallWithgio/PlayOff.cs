@@ -1,22 +1,25 @@
-﻿internal class Playoff
-{
-    public Team FirstTeam;
-    public Team SecondTeam;
+﻿
+using Sports.Matches;
 
-    public Match FirstRound;
-    public Match SecondRound;
+internal class Playoff<TTeam> where TTeam : Team
+{
+    public TTeam FirstTeam;
+    public TTeam SecondTeam;
+
+    public Match<TTeam> FirstRound;
+    public Match<TTeam> SecondRound;
 
     public int FirstTeamTotalGoals;
     public int SecondTeamTotalGoals;
 
     private PenaltySeries PenaltySeries;
 
-    public Playoff(Team firstTeam, Team secondTeam)
+    public Playoff(TTeam firstTeam, TTeam secondTeam)
     {
         FirstTeam = firstTeam;
         SecondTeam = secondTeam;
 
-        FirstRound = new Match(firstTeam, secondTeam);
+        FirstRound = new Match<TTeam>(firstTeam, secondTeam);
         SecondRound = FirstRound.Reverse();
 
         PenaltySeries = new PenaltySeries(firstTeam, secondTeam);
@@ -41,8 +44,10 @@
 
     public void Start()
     {
-        FirstRound.Start();
-        SecondRound.Start();
+        var start = FirstRound.Home.ScoreStart;
+        var end = FirstRound.Home.ScoreEnd;
+        FirstRound.Start(start, end);
+        SecondRound.Start(start, end);
 
         var firstTeamTotalGoals = FirstRound.HomeGoals + SecondRound.AwayGoals;
         var secondTeamTotalGoals = SecondRound.HomeGoals + FirstRound.AwayGoals;
@@ -63,7 +68,7 @@
         Console.WriteLine($"==== {FirstTeam.Name} {firstTeamTotalGoals} - {secondTeamTotalGoals} {SecondTeam.Name} ==== {potentialPenalties} ({winner.Name})\n");
     }
 
-    public Team GetWinner()
+    public TTeam GetWinner()
     {
         return FirstTeamTotalGoals > SecondTeamTotalGoals ? FirstTeam : SecondTeam;
     }

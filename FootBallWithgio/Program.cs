@@ -1,4 +1,4 @@
-﻿var teamNames = new string[]
+﻿var FootballTeamNames = new string[]
 {
   "Manchester United",
   "Real Madrid",
@@ -18,12 +18,47 @@
   "Napoli",
 };
 
-var Teams = teamNames.Select(name => new Team(name)).ToList();
+var BasketballTeamNames = new string[]
+{
+  "Los Angeles Lakers",
+  "Golden State Warriors",
+  "Chicago Bulls",
+  "Boston Celtics",
+  "Miami Heat",
+  "Brooklyn Nets",
+  "Milwaukee Bucks",
+  "Philadelphia 76ers",
+  "Phoenix Suns",
+  "Dallas Mavericks",
+  "Denver Nuggets",
+  "San Antonio Spurs",
+  "New York Knicks",
+  "Toronto Raptors",
+  "Houston Rockets",
+  "Memphis Grizzlies",
+};
 
-var tournament = new Tournament("Uefa Champions League", Teams);
+
+
+//var match = new BasketballMatch(new BasketballTeam("Warriors"), new BasketballTeam("Lakers"));
+//match.Start(50, 150);
+
+//var match2 = new FootballMatch(new FootballTeam("Real"), new FootballTeam("barca"));
+//match2.Start(1, 6);
+
+//Console.WriteLine($"{match.Home.Name} {match.HomeGoals} - {match.AwayGoals} {match.Away.Name}");
+//Console.WriteLine($"{match2.Home.Name} {match2.HomeGoals} - {match2.AwayGoals} {match2.Away.Name}");
+
+//Console.ReadKey();
+//return;
+
+var basketballTeams = BasketballTeamNames.Select(name => new BasketballTeam(name)).ToList();
+new List<int>();
+
+var tournament = new Tournament<BasketballTeam>("NBA", basketballTeams);
 tournament.GetWinners();
 
-Console.ReadKey();
+
 
 /*
 var teamNames = new string[]
