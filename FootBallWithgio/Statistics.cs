@@ -21,7 +21,7 @@ internal class Statistics
     {
         Console.WriteLine("\n=== Tournament Statistics ===");
         Console.WriteLine($"Total Matches Played: {MatchesPlayed}");
-        Console.WriteLine($"Total Goals Scored: {TotalGoals}");
+        Console.WriteLine($"Total Points Scored: {TotalGoals}");
         Console.WriteLine($"Penalty Shootouts: {PenaltyShootouts}");
     }
 }

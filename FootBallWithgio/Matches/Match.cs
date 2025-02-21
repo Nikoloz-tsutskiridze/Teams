@@ -1,4 +1,5 @@
-﻿namespace Sports.Matches
+﻿
+namespace Sports.Matches
 {
     public class Match<TTeam> where TTeam : Team
     {

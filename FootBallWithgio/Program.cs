@@ -1,4 +1,6 @@
-﻿var FootballTeamNames = new string[]
+﻿using Sports.Teams;
+
+var FootballTeamNames = new string[]
 {
   "Manchester United",
   "Real Madrid",
@@ -38,25 +40,40 @@ var BasketballTeamNames = new string[]
   "Memphis Grizzlies",
 };
 
+var TennisPlayers = new string[]
+{
+    "Roger Federer",
+    "Rafael Nadal",
+    "Novak Djokovic",
+    "Andy Murray",
+    "Pete Sampras",
+    "Andre Agassi",
+    "Björn Borg",
+    "Rod Laver",
+    "John McEnroe",
+    "Stefan Edberg",
+    "Ivan Lendl",
+    "Jimmy Connors",
+    "Mats Wilander",
+    "Boris Becker",
+    "Stan Wawrinka",
+    "Carlos Alcaraz",
+};
 
 
-//var match = new BasketballMatch(new BasketballTeam("Warriors"), new BasketballTeam("Lakers"));
-//match.Start(50, 150);
 
-//var match2 = new FootballMatch(new FootballTeam("Real"), new FootballTeam("barca"));
-//match2.Start(1, 6);
+//var footballTeams = FootballTeamNames.Select(name => new FootballTeam(name)).ToList();
+//var basketballTeams = BasketballTeamNames.Select(name => new BasketballTeam(name)).ToList();
+var tennisTeams = TennisPlayers.Select(name => new TennisTeam(name)).ToList();
 
-//Console.WriteLine($"{match.Home.Name} {match.HomeGoals} - {match.AwayGoals} {match.Away.Name}");
-//Console.WriteLine($"{match2.Home.Name} {match2.HomeGoals} - {match2.AwayGoals} {match2.Away.Name}");
+//var footballTournament = new Tournament<FootballTeam>("Champions League", footballTeams);
+//footballTournament.GetWinners();
 
-//Console.ReadKey();
-//return;
+//var basketballTournament = new Tournament<BasketballTeam>("NBA Finals", basketballTeams);
+//basketballTournament.GetWinners();
 
-var basketballTeams = BasketballTeamNames.Select(name => new BasketballTeam(name)).ToList();
-new List<int>();
-
-var tournament = new Tournament<BasketballTeam>("NBA", basketballTeams);
-tournament.GetWinners();
+var tennisTournament = new Tournament<TennisTeam>("NBA Finals", tennisTeams);
+tennisTournament.GetWinners();
 
 
 
@@ -84,5 +101,5 @@ for (int i = startYear; i <= currentYear; i++)
 
 winCounter.PrintTopTeams();
 
-Console.ReadKey();
  */
+Console.ReadKey();

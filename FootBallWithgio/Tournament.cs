@@ -22,7 +22,7 @@ internal class Tournament<TTeam> where TTeam : Team
         var playoffs = new List<Playoff<TTeam>>();
         var matchGenerator = new GenerateRandomMatch<TTeam>(); 
 
-        while (Teams.Count > 0)
+        while (Teams.Count > 1)
         {
             var match = matchGenerator.GenerateMatch(Teams);
             var playoff = new Playoff<TTeam>(match.Home, match.Away);
